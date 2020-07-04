@@ -32,7 +32,7 @@ class Player {
             tiles[this.x + 1][this.y] = "P"
             tiles[this.x][this.y] = null
             this.x += 1
-        } else if (direction === "left" && this.x > 0 && this.x < 9) {
+        } else if (direction === "left" && this.x > 0 && this.x <= 9) {
             tiles[this.x - 1][this.y] = "P"
             tiles[this.x][this.y] = null
             this.x -= 1
@@ -40,12 +40,13 @@ class Player {
             tiles[this.x][this.y + 1] = "P"
             tiles[this.x][this.y] = null
             this.y += 1
-        } else if (direction === "down" && this.y > 0 && this.y < 9) {
+        } else if (direction === "down" && this.y > 0 && this.y <= 9) {
             tiles[this.x][this.y - 1] = "P"
             tiles[this.x][this.y] = null
             this.y -= 1
         }
         console.log(tiles)
+        console.log("player", player1.x, player1.y)
     }
 }
 
@@ -54,12 +55,36 @@ const context = canvas.getContext("2d")
 const TILE_SIZE = 50
 
 const render = () => {
+    // context.fillRect(100 , 0, 50, 50)
     context.fillStyle = "#efefef"
     context.fillRect(0, 0, canvas.width, canvas.height)
     context.fillStyle = "red"
-    context.fillRect(player1.x*TILE_SIZE , 450-player1.y*TILE_SIZE, TILE_SIZE, TILE_SIZE)
+    context.fillRect(player1.x * TILE_SIZE, 450 - player1.y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
 }
 
+
+window.addEventListener("keydown", (event) => {
+    console.log(`key=${event.key},code=${event.code}`)
+    console.log(event.key)
+    switch (event.key) {
+        case "ArrowUp":
+            player1.move("up")
+            render()
+            break
+        case "ArrowRight":
+            player1.move("right")
+            render()
+            break
+        case "ArrowDown":
+            player1.move("down")
+            render()
+            break
+        case "ArrowLeft":
+            player1.move("left")
+            render()
+            break
+    }
+})
 let player1 = new Player()
 player1.move("right")
 render()
