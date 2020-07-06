@@ -29,26 +29,45 @@ class Player {
 
     move(direction) {
         if (direction === "right" && this.x >= 0 && this.x < 9) {
-            tiles[this.x + 1][this.y] = "P"
-            tiles[this.x][this.y] = null
-            this.x += 1
+            // console.log(tiles[this.x][this.y])
+            if (tiles[this.x+1][this.y] === null) {
+                tiles[this.x + 1][this.y] = "P"
+                tiles[this.x][this.y] = null
+                this.x += 1
+            }
         } else if (direction === "left" && this.x > 0 && this.x <= 9) {
-            tiles[this.x - 1][this.y] = "P"
-            tiles[this.x][this.y] = null
-            this.x -= 1
+            if (tiles[this.x-1][this.y] === null) {
+                tiles[this.x - 1][this.y] = "P"
+                tiles[this.x][this.y] = null
+                this.x -= 1
+            }
         } else if (direction === "up" && this.y >= 0 && this.y < 9) {
-            tiles[this.x][this.y + 1] = "P"
-            tiles[this.x][this.y] = null
-            this.y += 1
+            if (tiles[this.x][this.y+1] === null) {
+                tiles[this.x][this.y + 1] = "P"
+                tiles[this.x][this.y] = null
+                this.y += 1
+            }
         } else if (direction === "down" && this.y > 0 && this.y <= 9) {
-            tiles[this.x][this.y - 1] = "P"
-            tiles[this.x][this.y] = null
-            this.y -= 1
+            if (tiles[this.x][this.y-1] === null) {
+                tiles[this.x][this.y - 1] = "P"
+                tiles[this.x][this.y] = null
+                this.y -= 1
+            }
         }
         console.log(tiles)
         console.log("player", player1.x, player1.y)
     }
 }
+
+class Enemy {
+    constructor() {
+        this.x = Math.floor(Math.random() * 10)
+        this.y = Math.floor(Math.random() * 10)
+        this.health = 200
+        tiles[this.x][this.y] = "E"
+    }
+}
+
 
 const canvas = document.getElementById("game-layer")
 const context = canvas.getContext("2d")
@@ -58,8 +77,14 @@ const render = () => {
     // context.fillRect(100 , 0, 50, 50)
     context.fillStyle = "#efefef"
     context.fillRect(0, 0, canvas.width, canvas.height)
-    context.fillStyle = "red"
+    context.fillStyle = "#0D4A6F"
     context.fillRect(player1.x * TILE_SIZE, 450 - player1.y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
+    context.fillStyle = "#000"
+    context.strokeRect(enemy1.x * TILE_SIZE, 450 - enemy1.y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
+    context.fillStyle = "#000"
+    context.strokeRect(enemy2.x * TILE_SIZE, 450 - enemy2.y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
+    context.fillStyle = "#000"
+    context.strokeRect(enemy3.x * TILE_SIZE, 450 - enemy3.y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
 }
 
 
@@ -86,5 +111,13 @@ window.addEventListener("keydown", (event) => {
     }
 })
 let player1 = new Player()
-player1.move("right")
+console.log("palyer1", player1.x, player1.y)
+let enemy1 = new Enemy()
+console.log("enemy1", enemy1.x, enemy1.y)
+let enemy2 = new Enemy()
+console.log("enemy2", enemy2.x, enemy2.y)
+let enemy3 = new Enemy()
+console.log("enemy3", enemy3.x, enemy3.y)
+console.log(enemy3)
+// player1.move("right")
 render()
