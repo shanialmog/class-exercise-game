@@ -25,37 +25,49 @@ class Player {
         this.y = 0;
         this.health = 200;
         tiles[0][0] = "P"
-        this.direction = null
+        this.direction = "U"
+    }
+
+    setDirection(direction) {
+        switch (direction) {
+            case "R":
+                this.direction = "R"
+                break
+            case "D":
+                this.direction = "D"
+                break
+            case "L":
+                this.direction = "L"
+                break
+            case "U":
+                this.direction = "U"
+                break
+        }
     }
 
     move(direction) {
-        if (direction === "right" && this.x >= 0 && this.x < 9) {
-            // console.log(tiles[this.x][this.y])
+        if (direction === "R" && this.x < 9) {
             if (tiles[this.x + 1][this.y] === null) {
                 tiles[this.x + 1][this.y] = "P"
                 tiles[this.x][this.y] = null
-                this.direction = "R"
                 this.x += 1
             }
-        } else if (direction === "left" && this.x > 0 && this.x <= 9) {
+        } else if (direction === "L" && this.x > 0) {
             if (tiles[this.x - 1][this.y] === null) {
                 tiles[this.x - 1][this.y] = "P"
                 tiles[this.x][this.y] = null
-                this.direction = "L"
                 this.x -= 1
             }
-        } else if (direction === "up" && this.y >= 0 && this.y < 9) {
+        } else if (direction === "U" && this.y < 9) {
             if (tiles[this.x][this.y + 1] === null) {
                 tiles[this.x][this.y + 1] = "P"
                 tiles[this.x][this.y] = null
-                this.direction = "U"
                 this.y += 1
             }
-        } else if (direction === "down" && this.y > 0 && this.y <= 9) {
+        } else if (direction === "D" && this.y > 0) {
             if (tiles[this.x][this.y - 1] === null) {
                 tiles[this.x][this.y - 1] = "P"
                 tiles[this.x][this.y] = null
-                this.direction = "D"
                 this.y -= 1
             }
         }
@@ -87,7 +99,7 @@ const render = () => {
         case "R":
             context.lineWidth = 4
             context.beginPath();       // start a new path
-            context.moveTo(player1.x * TILE_SIZE + TILE_SIZE, 450 - player1.y * TILE_SIZE +TILE_SIZE);    // start at (x,y)
+            context.moveTo(player1.x * TILE_SIZE + TILE_SIZE, 450 - player1.y * TILE_SIZE + TILE_SIZE);    // start at (x,y)
             context.lineTo(player1.x * TILE_SIZE + TILE_SIZE, 450 - player1.y * TILE_SIZE);  // end at (x,y)
             context.strokeStyle = "#DAA520"
             context.stroke();
@@ -133,19 +145,23 @@ window.addEventListener("keydown", (event) => {
     console.log(event.key)
     switch (event.key) {
         case "ArrowUp":
-            player1.move("up")
+            player1.move("U")
+            player1.setDirection("U")
             render()
             break
         case "ArrowRight":
-            player1.move("right")
+            player1.move("R")
+            player1.setDirection("R")
             render()
             break
         case "ArrowDown":
-            player1.move("down")
+            player1.move("D")
+            player1.setDirection("D")
             render()
             break
         case "ArrowLeft":
-            player1.move("left")
+            player1.move("L")
+            player1.setDirection("L")
             render()
             break
     }
